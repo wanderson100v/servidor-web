@@ -1,0 +1,107 @@
+
+/*Imports*/
+@import url('https://fonts.googleapis.com/css?family=Cinzel:400,700');
+@import url('https://fonts.googleapis.com/css?family=Arvo:400,700');
+
+/*Classes*/
+.principal{
+	
+	-fx-pref-width: 790.0;
+	-fx-pref-height: 500.0;
+	-fx-background-color: #3B4F51; /*Cor de Fundo*/
+	
+}
+
+.detalhesMsg{
+	-fx-pref-width: 400.0;
+	-fx-pref-height: 400.0;
+	-fx-background-color: #3B4F51; /*Cor de Fundo*/
+}
+
+.corpoDetalhesMSg{
+	-fx-padding: 10.0, 10.0;
+	-fx-spacing: 10.0;
+}
+
+.corpo{
+		
+	-fx-pref-width: 790.0;
+	-fx-pref-height: 500.0;
+	-fx-padding: 10.0, 10.0;
+	-fx-spacing: 10.0;
+}
+
+.container-centro {
+	
+	-fx-alignment: center;
+	-fx-column-halignment: center;
+	-fx-padding: 10.0, 10.0;
+	-fx-hgap: 10.0;
+	-fx-vgap: 10.0;
+}
+
+.container-horizontal{
+	
+	-fx-alignment: center_left;
+	-fx-spacing: 10.0;
+	
+}
+
+.container-vertical{
+	
+	-fx-alignment: top_left;
+	-fx-spacing: 10.0;
+	
+}
+
+.texto-principal{
+	
+	-fx-font-size: 23.0px;
+    -fx-font-family: 'Cinzel', serif;
+    -fx-text-fill: white;
+    /*-fx-font-style: bold;*/
+    
+}
+
+.texto-titulo{
+	
+	-fx-font-size: 30.0px;
+    -fx-font-family: 'Cinzel', serif;
+    -fx-text-fill: white;
+    /*-fx-font-style: bold;*/
+    
+}
+
+.texto-status{
+	
+	-fx-font-size: 18.0px;
+    -fx-font-family: 'Cinzel', serif;
+    -fx-text-fill: white;
+    /*-fx-font-style: bold;*/
+    
+}
+
+.texto-componetes{
+	
+	-fx-font-size: 14.0px;
+	-fx-font-family: 'Arvo', serif;
+    -fx-text-fill: black;
+	/*-fx-font-style: bold;*/
+}
+
+.caixa-texto{
+	
+	-fx-font-size: 18.0px;
+    -fx-font-family: 'Arvo', serif;
+    -fx-text-fill: black;
+	
+}
+
+.button-bar{
+	-fx-pref-height: 90.0;
+}
+
+.tooltip {
+	-fx-font-size: 16.0px;
+    -fx-font-family: 'Arvo', serif;
+}
