@@ -16,27 +16,33 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane styleClass="principal" stylesheets="@aparencia.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="br.com.servidorweb.controller.ControleServidor">
+<AnchorPane styleClass="principal" stylesheets="@aparencia.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.servidorweb.controller.ControleServidor">
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0" styleClass="corpo" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
             <VBox prefHeight="200.0" prefWidth="100.0" styleClass="container-vertical" BorderPane.alignment="CENTER">
                <children>
-                  <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="169.0" prefWidth="770.0">
+                  <FlowPane alignment="CENTER_LEFT" columnHalignment="CENTER" hgap="10.0" prefHeight="24.0" prefWidth="776.0">
                      <children>
-                        <GridPane prefHeight="173.0" prefWidth="776.0">
+                        <Label styleClass="texto-principal" text="Servidor aberto na porta:" />
+                        <Label fx:id="lblPorta" styleClass="texto-principal" text="Porta" />
+                     </children>
+                  </FlowPane>
+                  <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="77.0" prefWidth="770.0">
+                     <children>
+                        <GridPane alignment="CENTER" prefHeight="86.0" prefWidth="757.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <StackPane alignment="CENTER_LEFT" prefHeight="58.0" prefWidth="300.0" GridPane.columnIndex="1">
+                              <Label styleClass="texto-principal" text="Servidor:" />
+                              <StackPane alignment="CENTER_LEFT" prefHeight="58.0" prefWidth="300.0" GridPane.rowIndex="1">
                                  <children>
                                     <Button fx:id="btnIniciar" mnemonicParsing="false" onAction="#clickAction" styleClass="caixa-texto" visible="false">
                                        <graphic>
@@ -64,6 +70,7 @@
                                     </Button>
                                  </children>
                               </StackPane>
+                              <Label styleClass="texto-principal" text="Log:" GridPane.columnIndex="1" />
                               <StackPane alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <children>
                                     <Button fx:id="btnComLog" mnemonicParsing="false" onAction="#clickAction" styleClass="caixa-texto" visible="false">
@@ -92,7 +99,7 @@
                                     </Button>
                                  </children>
                               </StackPane>
-                              <Button fx:id="btnReiniciar" mnemonicParsing="false" onAction="#clickAction" styleClass="caixa-texto" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                              <Button fx:id="btnReiniciar" mnemonicParsing="false" onAction="#clickAction" styleClass="caixa-texto" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                  <graphic>
                                     <ImageView fitHeight="37.5" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -104,15 +111,13 @@
                                     <Tooltip text="Reiniciar" />
                                  </tooltip>
                               </Button>
-                              <Label styleClass="texto-principal" text="Servidor:" />
-                              <Label styleClass="texto-principal" text="Log:" GridPane.rowIndex="1" />
-                              <Label styleClass="texto-principal" text="Reiniciar:" GridPane.rowIndex="2" />
+                              <Label styleClass="texto-principal" text="Reiniciar:" GridPane.columnIndex="2" />
                            </children>
                         </GridPane>
                      </children>
                   </FlowPane>
                   <Separator prefWidth="200.0" />
-                  <TextArea fx:id="txaInformacoes" prefHeight="380.0" prefWidth="770.0" styleClass="caixa-texto">
+                  <TextArea fx:id="txaInformacoes" editable="false" prefHeight="313.0" prefWidth="776.0" styleClass="caixa-texto">
                      <tooltip>
                         <Tooltip text="Informações" />
                      </tooltip>

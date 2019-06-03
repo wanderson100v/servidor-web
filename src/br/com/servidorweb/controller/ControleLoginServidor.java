@@ -3,6 +3,7 @@ package br.com.servidorweb.controller;
 import java.io.IOException;
 
 import br.com.servidorweb.app.AppServidorWeb;
+import br.com.servidorweb.util.MaskFieldUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,8 +30,8 @@ public class ControleLoginServidor extends Controle {
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
-
+		MaskFieldUtil.numericField(tfdPorta);
+		MaskFieldUtil.maxField(tfdPorta, 5);
 	}
 
 	@FXML
@@ -41,6 +42,7 @@ public class ControleLoginServidor extends Controle {
 		if (obj == btnEntrar) {
 			if (!tfdPorta.getText().trim().isEmpty()) {
 				try {
+					ControleServidor.setPorta(Integer.parseInt(tfdPorta.getText().trim()));
 					if (servidor == null)
 						servidor = FXMLLoader.load(getClass().getClassLoader().getResource("br/com/servidorweb/view/Servidor.fxml"));
 					AppServidorWeb.changeStage(servidor);

@@ -26,6 +26,7 @@ public class AppServidorWeb extends Application {
 			servidor = FXMLLoader.load(getClass().getClassLoader().getResource("br/com/servidorweb/view/LoginServidor.fxml"));
 			sceneServidor = new Scene(servidor);
 			primaryStage.setScene(sceneServidor);
+			primaryStage.setTitle("Servidor Web");
 			primaryStage.setResizable(false);
 			primaryStage.centerOnScreen();
 			primaryStage.show();
