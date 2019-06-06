@@ -14,6 +14,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -117,30 +118,57 @@ public class Servidor {
 			e.printStackTrace();
 		}
 	}
-
-	public void buscarArquivo(String caminho) {
-
-		String fileName = "/" + caminho;
-		File file = null;
-		String tipo = "";
-		if(caminho.equals("/"))
-			file = new File(pasta+"/index.php");
-		else
-			file = new File(pasta + fileName);
-		try {
-			if(file.exists()) {
-				tipo = Files.probeContentType(file.toPath());
-				enviarArquivo("200 OK",getBytes(file), tipo);
+	
+	public static void listarDiretorios(String path) {
+		
+	}
+	
+	public void  buscarArquivo(String caminho) {
+		if(caminho.isEmpty())
+			caminho = "/";
+		File dir = Paths.get("arquivos"+caminho).toFile();
+		System.err.println(dir.toPath());
+		if (dir.exists()) 
+		{	
+			if(dir.isDirectory()) 
+			{
+				File[] files = dir.listFiles();
+				if (files.length > 0) 
+				{
+					
+					StringBuffer sb = new StringBuffer("<html>\n"
+							+ "\t<h1> Listagem de diretórios</h1>\n"
+							+ "\t<ul>\n");
+					for (int i = 0; i < files.length; i++) 
+					{
+						sb.append("\t\t<li><a href ='"+caminho+files[i].getName()+((files[i].isDirectory())? "/":"")+"'>"+files[i].getName()+"</a></li>\n");
+						if(files[i].getPath().contains("index")) {
+							try {
+								String tipo = Files.probeContentType(files[i].toPath());
+								enviarArquivo("200 OK",getBytes(files[i]), tipo);
+								return;
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+					sb.append("\t</ul>\n"
+							+ "</html>");
+					try {
+						enviarArquivo("200 OK",sb.toString().getBytes(),Files.probeContentType(dir.toPath()));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				
 			}
-			else {
-				//implementar 404 not found
-				System.out.println("Implementar 404 not found");
+			try {
+				enviarArquivo("200 OK",getBytes(dir),Files.probeContentType(dir.toPath()));
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
-
-		System.out.println(file);
+		
 	}
 
 	public byte[] getBytes(File file) {
