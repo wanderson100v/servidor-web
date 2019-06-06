@@ -72,21 +72,24 @@ public class ControleServidor extends Controle {
 
 								String linha = servidor.requisicao();
 
-								atualizarLog(linha);
-
-								vetorString = linha.split(" ");
-
-								requisicao = vetorString[0];
-								caminho = vetorString[1];
-								protocolo = vetorString[2];
-								
-								System.out.println(requisicao+" "+caminho+" "+protocolo);
-
-								atualizarLog("---------------------------------------------------------------------------------------------------------------------");
-
-								servidor.buscarArquivo(caminho);
-
-								servidor.encerrar();
+								if(linha != null)
+								{
+									atualizarLog(linha);
+									
+									vetorString = linha.split(" ");
+									
+									requisicao = vetorString[0];
+									caminho = vetorString[1];
+									protocolo = vetorString[2];
+									
+									System.out.println(requisicao+" "+caminho+" "+protocolo);
+									
+									atualizarLog("---------------------------------------------------------------------------------------------------------------------");
+									
+									servidor.buscarArquivo(caminho);
+									
+									servidor.encerrar();
+								}
 
 							} catch (Exception e) {
 								e.printStackTrace();
