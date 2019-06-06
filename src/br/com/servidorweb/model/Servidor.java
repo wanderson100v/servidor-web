@@ -15,12 +15,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-import java.util.Vector;
 
 /**
  * @author mael
@@ -29,25 +29,27 @@ import java.util.Vector;
 public class Servidor {
 
 	private ServerSocket serverSocket;
+	
 	private Socket socket;
+	
 	private BufferedReader entrada;
+	
 	private PrintWriter saidaTexto;
+	
 	private BufferedOutputStream saidaBinario;
 
 	private String pasta;
 
-	public Servidor(int porta) {
+	public Servidor(int porta,String pasta) {
 		try {
-			serverSocket = new ServerSocket(porta);
+			this.serverSocket = new ServerSocket(porta);
+			this.pasta = pasta;
+		
+			Path dir = Paths.get(pasta);
+			if (!dir.toFile().exists()) 
+				Files.createDirectories(dir);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-
-		pasta = "arquivos";
-
-		File diretorio = new File(pasta);
-		if (!diretorio.exists()) {
-			diretorio.mkdirs();
 		}
 	}
 
@@ -150,9 +152,9 @@ public class Servidor {
 		if(caminho.isEmpty())
 			caminho = "/";
 		
-		File dir = Paths.get("arquivos"+caminho).toFile();
+		File dir = Paths.get(pasta+caminho).toFile();
 		try {
-			if (dir.exists())// // Arq ou dir existe -  implementar nesse bloco protocolo 200 OK
+			if (dir.exists())//Arq ou dir existe -  implementar nesse bloco protocolo 200 OK
 			{	
 				if(dir.isDirectory()) // Se é diretório devera listar todos os aquivos/pastas. Entretanto, se há um arq "index" o mesmo será mostrado em tela
 				{

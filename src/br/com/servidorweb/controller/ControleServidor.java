@@ -1,5 +1,6 @@
 package br.com.servidorweb.controller;
 
+import br.com.servidorweb.model.Config;
 import br.com.servidorweb.model.Servidor;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -37,16 +38,16 @@ public class ControleServidor extends Controle {
 	private TextArea txaInformacoes;
 
 	private Servidor servidor;
-	private static int porta;
 	private boolean log;
 	private Service<Object> service;
+	private Config config = new Config();
 
 	@Override
 	public void init() {
-
+		config.getConfig();
 		log = true;
-		servidor = new Servidor(porta);
-		lblPorta.setText(porta+"");
+		servidor = new Servidor(config.getPorta(),config.getPasta().getPath());
+		lblPorta.setText(config.getPorta()+"");
 
 		service = new Service<Object>() {
 
@@ -162,9 +163,5 @@ public class ControleServidor extends Controle {
 			else
 				txaInformacoes.setText(requisicao+"\n");
 		}
-	}
-
-	public static void setPorta(int porta) {
-		ControleServidor.porta = porta;
 	}
 }

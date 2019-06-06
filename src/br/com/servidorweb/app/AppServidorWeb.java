@@ -46,6 +46,9 @@ public class AppServidorWeb extends Application {
 		stage.setScene(new Scene(pane));
 	}
 	
+	public static Stage getStage() {
+		return stage;
+	}
 	public static void main(String[] args) {
 		launch(args);
 	}
