@@ -13,12 +13,14 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.Vector;
 
 /**
  * @author mael
@@ -119,58 +121,74 @@ public class Servidor {
 		}
 	}
 	
-	public static void listarDiretorios(String path) {
-		
+	public void validarProtocolo(String[] vetorString) {
+		try {
+			if(vetorString.length == 3 && vetorString[0].equalsIgnoreCase("GET") 
+					&& vetorString[1].contains("/"))
+			{
+				if(vetorString[2].equalsIgnoreCase("HTTP/1.1"))// Se tudo estiver ok no protocolo, possíveis saídas são : 2OO OK ou 404 Not Found
+				{
+					buscarArquivo(vetorString[1]);
+				}
+				else //505 HTTP Version Not Supported
+				{
+					File file = new File(getClass().getResource("http-version-not-supported.html").toURI());
+					enviarArquivo("505 HTTP Version Not Supported",getBytes(file),Files.probeContentType(file.toPath()));
+				}
+			}
+			else //400 Bad Request
+			{
+				File file = new File(getClass().getResource("bad-request.html").toURI());
+				enviarArquivo("400 Bad Request",getBytes(file),Files.probeContentType(file.toPath()));
+			}
+		} catch (IOException | URISyntaxException e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	public void  buscarArquivo(String caminho) {
 		if(caminho.isEmpty())
 			caminho = "/";
+		
 		File dir = Paths.get("arquivos"+caminho).toFile();
-		System.err.println(dir.toPath());
-		if (dir.exists()) 
-		{	
-			if(dir.isDirectory()) 
-			{
-				File[] files = dir.listFiles();
-				if (files.length > 0) 
+		try {
+			if (dir.exists())// // Arq ou dir existe -  implementar nesse bloco protocolo 200 OK
+			{	
+				if(dir.isDirectory()) // Se é diretório devera listar todos os aquivos/pastas. Entretanto, se há um arq "index" o mesmo será mostrado em tela
 				{
-					
-					StringBuffer sb = new StringBuffer("<html>\n"
-							+ "\t<h1> Listagem de diret�rios</h1>\n"
+					File[] files = dir.listFiles();
+		
+					StringBuffer sb = new StringBuffer(
+							"<html>\n"
+							+ "\t<h1> Listagem de diretórios</h1>\n"
 							+ "\t<ul>\n");
-					for (int i = 0; i < files.length; i++) 
+					for (int i = 0; i < files.length; i++) // para cada arq ou pasta do diretório
 					{
 						sb.append("\t\t<li><a href ='"+caminho+files[i].getName()+((files[i].isDirectory())? "/":"")+"'>"+files[i].getName()+"</a></li>\n");
-						if(files[i].getPath().contains("index")) {
-							try {
-								String tipo = Files.probeContentType(files[i].toPath());
-								enviarArquivo("200 OK",getBytes(files[i]), tipo);
-								return;
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
+						if(files[i].getPath().contains("index")) // verifica se  é index. Se for a construção do html com diretórios para, e é retornado o arq index.
+						{ 
+							String tipo = Files.probeContentType(files[i].toPath());
+							enviarArquivo("200 OK",getBytes(files[i]), tipo);
+							return;
 						}
-					}
+					}// caso saia do laço, siginifica não haver um arquivo index na pasta. Portanto é retornado um html com a listagem dos arquivos e diretorios interno a pasta requisitada
 					sb.append("\t</ul>\n"
 							+ "</html>");
-					try {
-						enviarArquivo("200 OK",sb.toString().getBytes(),Files.probeContentType(dir.toPath()));
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-				
-			}
-			try {
-				enviarArquivo("200 OK",getBytes(dir),Files.probeContentType(dir.toPath()));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+					enviarArquivo("200 OK",sb.toString().getBytes(),Files.probeContentType(dir.toPath()));
+					
+				}else  // como não é diretório, só é necessário enviar (dado que o arquivo existe)
+					enviarArquivo("200 OK",getBytes(dir),Files.probeContentType(dir.toPath()));
+			}else  // Arq ou dir não existe -  implementar nesse bloco protocolo 404 Not Found
+				enviarArquivo("404 Not Found",getBytes(new File(getClass().getResource("not-found.html").toURI())),Files.probeContentType(dir.toPath()));
+		}
+		catch (IOException | URISyntaxException e) 
+		{
+			e.printStackTrace();
 		}
 		
+		
 	}
-
+	
 	public byte[] getBytes(File file) {
 
 		try {
