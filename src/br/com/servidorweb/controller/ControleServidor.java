@@ -57,43 +57,34 @@ public class ControleServidor extends Controle {
 					@Override
 					protected Object call() throws Exception {
 
+						String[] vetorString;
+						String requisicao ="";
+						String caminho ="";
+						String protocolo ="";
+
 						while(true)
 						{
-							if(isCancelled())
-								break;
-							
+							//							if(isCancelled())
+							//								break;
+
 							try {
 								servidor.aguardandoRequisicao();
 
-								while (true) {
-									String linha = servidor.requisicao();
-									if(linha == null || linha.equals("")) {
-										break;
-									}
+								String linha = servidor.requisicao();
 
-									atualizarLog(linha);
-								}
+								atualizarLog(linha);
 
-								atualizarLog("----------------------------------------------------------------------------------------------------------------------------------");
-								System.out.println("Preparando Retorno");
-								servidor.prepararRetorno("HTTP/1.1 200 OK\r\n");
-								servidor.prepararRetorno("Date: Fri, 12 Apr 2019 23:40:23 GMT\r\n");
-								servidor.prepararRetorno("Server: Eclipse/2020 (Ubuntu)\r\n");
-								servidor.prepararRetorno("Content-Type: text/html\r\n");
-								servidor.prepararRetorno("\r\n");
-								servidor.prepararRetorno("<html>");
-								servidor.prepararRetorno("<head>");
-								servidor.prepararRetorno("<title>Testando servidor no Eclipse</title>");
-								servidor.prepararRetorno("</head>");
-								servidor.prepararRetorno("<body>");
-								servidor.prepararRetorno("<h1>Olá mundo!</h1>");
-								servidor.prepararRetorno("</body>");
-								servidor.prepararRetorno("</html>");
+								vetorString = linha.split(" ");
 
-								System.out.println("Enviando Retorno");
-								servidor.enviar();
+								requisicao = vetorString[0];
+								caminho = vetorString[1];
+								protocolo = vetorString[2];
+								
+								System.out.println(requisicao+" "+caminho+" "+protocolo);
 
-								System.out.println("Fim");
+								atualizarLog("---------------------------------------------------------------------------------------------------------------------");
+
+								servidor.buscarArquivo(caminho);
 
 								servidor.encerrar();
 
@@ -101,14 +92,14 @@ public class ControleServidor extends Controle {
 								e.printStackTrace();
 							}
 						}
-						return null;
+						//						return null;
 
 					}
 				};
 
 			}
 		};
-		
+
 		service.start();
 	}
 
