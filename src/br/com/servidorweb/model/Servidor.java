@@ -162,6 +162,9 @@ public class Servidor {
 		
 					StringBuffer sb = new StringBuffer(
 							"<html>\n"
+							+"<head> "
+							+ "<meta charset='utf8'> <title>Index of /</title>"
+							+ "<head>"
 							+ "\t<h1> Listagem de diretórios</h1>\n"
 							+ "\t<ul>\n");
 					for (int i = 0; i < files.length; i++) // para cada arq ou pasta do diretório

@@ -58,27 +58,22 @@ public class ControleServidor extends Controle {
 					@Override
 					protected Object call() throws Exception {
 
-						String[] vetorString;
-						String requisicao ="";
-						String caminho ="";
-						String protocolo ="";
-
 						while(true)
 						{
-							//							if(isCancelled())
-							//								break;
-
 							try {
 								servidor.aguardandoRequisicao();
-
-								String linha = servidor.requisicao();
 								
+								String linha = servidor.requisicao();
+								String[] vetorString;
 								if(linha != null)
 								{
-									atualizarLog(linha);
 									
 									vetorString = linha.split(" ");
+									for (int i =0; i < vetorString.length; i++) {
+										vetorString[i] = vetorString[i].replace("%20", " ");
+									}
 									
+									atualizarLog(linha.replace("%20", " "));
 									atualizarLog("---------------------------------------------------------------------------------------------------------------------");
 									servidor.validarProtocolo(vetorString);
 									servidor.encerrar();
@@ -88,7 +83,6 @@ public class ControleServidor extends Controle {
 								e.printStackTrace();
 							}
 						}
-						//						return null;
 
 					}
 				};
