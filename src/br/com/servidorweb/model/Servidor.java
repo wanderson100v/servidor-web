@@ -95,7 +95,7 @@ public class Servidor {
 		String respond = "HTTP/1.1 "+status+"\r\n"
 				+ "Location: http://localhost:8000/\r\n"
 				+ "Date: " + dataFormatada + "\r\n"
-				+ "Server: Servidor/1.0\r\n"
+				+ "Server: EMael Server/1.0\r\n"
 				+ "Content-Type: "+tipo+"\r\n"
 				+ "Content-Length: " + arquivo.length + "\r\n"
 				+ "Connection: close\r\n"
@@ -176,7 +176,7 @@ public class Servidor {
 					}// caso saia do laço, siginifica não haver um arquivo index na pasta. Portanto é retornado um html com a listagem dos arquivos e diretorios interno a pasta requisitada
 					sb.append("\t</ul>\n"
 							+ "</html>");
-					enviarArquivo("200 OK",sb.toString().getBytes(),Files.probeContentType(dir.toPath()));
+					enviarArquivo("200 OK",sb.toString().getBytes(), null);
 					
 				}else  // como não é diretório, só é necessário enviar (dado que o arquivo existe)
 					enviarArquivo("200 OK",getBytes(dir),Files.probeContentType(dir.toPath()));
